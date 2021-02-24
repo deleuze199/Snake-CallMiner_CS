@@ -1,7 +1,6 @@
 package sample;
 
 import java.util.LinkedList;
-import java.util.ListIterator;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,7 +13,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -36,7 +34,9 @@ public class Main extends Application {
   private Food food;
   Stage stage;
   Group root;
-  Timeline timeline;
+  private Timeline timeline;
+  private int score;
+
 
   @Override
   public void start(Stage primaryStage) {
@@ -50,7 +50,7 @@ public class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
     gc = canvas.getGraphicsContext2D();
-
+    score = 0;
     snake = new Snake();
     food = new Food(ROWS, COLUMNS);
     food.createNewLocation(snake.getLocationList());
@@ -86,9 +86,11 @@ public class Main extends Application {
       drawBackground(gc);
       drawSnake(gc);
       drawFood(gc);
+      drawScore();
       if (isFoodEaten(snake.getLocationList(), food.getLocation())) {
         food.createNewLocation(snake.getLocationList());
         snake.increaseSnakeSize();
+        score+=1;
       }
     } else {
       endGame();
@@ -135,6 +137,12 @@ public class Main extends Application {
         SQUARE_SIZE, SQUARE_SIZE);
   }
 
+  public void drawScore() {
+      gc.setFill(Color.WHITE);
+      gc.setFont(new Font( 30));
+      gc.fillText("Score: " + score, 10, 35);
+  }
+
   public void endGame() {
     gc.setFill(Color.RED);
     gc.setFont(new Font(70));
@@ -145,7 +153,7 @@ public class Main extends Application {
       try {
         snake.setGameOver(false);
         start(stage);
-//                    run(gc);
+        //run(gc);
         root.getChildren().remove(buttonPlayAgain);
       } catch (Exception ex) {
         ex.printStackTrace();
