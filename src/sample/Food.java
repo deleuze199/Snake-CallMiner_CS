@@ -17,7 +17,7 @@ public class Food {
   public void createNewLocation(LinkedList<int[]> snakeLocation) {
     x = (int) (Math.random() * rows);
     y = (int) (Math.random() * columns);
-    int[] newFoodLocation = {x,y};
+    int[] newFoodLocation = {x, y};
     if (isNewLocationInSnake(snakeLocation, newFoodLocation)) {
       createNewLocation(snakeLocation);
     }
