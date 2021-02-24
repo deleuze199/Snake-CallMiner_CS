@@ -24,11 +24,11 @@ public class Main extends Application {
   @FXML
   private Button buttonPlayAgain;
   private GraphicsContext gc;
-  private static final int WIDTH = 800;
-  private static final int HEIGHT = 800;
+  private static final double WIDTH = 800;
+  private static final double HEIGHT = 800;
   private static final int ROWS = 20;
   private static final int COLUMNS = ROWS;
-  private static final int SQUARE_SIZE = WIDTH / ROWS;
+  private static final double SQUARE_SIZE = WIDTH / ROWS;
   private Image foodImage = new Image("./img/apple.png");
   private Snake snake;
   private Food food;
@@ -90,7 +90,7 @@ public class Main extends Application {
       if (isFoodEaten(snake.getLocationList(), food.getLocation())) {
         food.createNewLocation(snake.getLocationList());
         snake.increaseSnakeSize();
-        score+=1;
+        score += 1;
       }
     } else {
       endGame();
@@ -138,17 +138,20 @@ public class Main extends Application {
   }
 
   public void drawScore() {
-      gc.setFill(Color.WHITE);
-      gc.setFont(new Font( 30));
-      gc.fillText("Score: " + score, 10, 35);
+    gc.setFill(Color.WHITE);
+    gc.setFont(new Font(30));
+    gc.fillText("Score: " + score, 10, 35);
   }
 
   public void endGame() {
+    timeline.stop();
     gc.setFill(Color.RED);
     gc.setFont(new Font(70));
     gc.fillText("Game Over", WIDTH / 3.5, HEIGHT / 2);
     buttonPlayAgain = new Button("Play Again");
     root.getChildren().add(buttonPlayAgain);
+    buttonPlayAgain.setLayoutX((WIDTH / 2) - 50);
+    buttonPlayAgain.setLayoutY((HEIGHT / 2) + 15);
     buttonPlayAgain.setOnAction(e -> {
       try {
         snake.setGameOver(false);
@@ -159,7 +162,6 @@ public class Main extends Application {
         ex.printStackTrace();
       }
     });
-    timeline.stop();
   }
 
   public static void main(String[] args) {
